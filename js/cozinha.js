@@ -1,0 +1,8 @@
+let db = loadDB(); const $ = id => document.getElementById(id);
+const columns = [['NOVO', 'Novos'], ['EM_PREPARO', 'Em preparo'], ['PRONTO', 'Prontos']];
+function next(status) { return status === 'NOVO' ? 'EM_PREPARO' : status === 'EM_PREPARO' ? 'PRONTO' : 'ENTREGUE' }
+function render() { db = loadDB(); 
+    const active = db.orders.filter(o => !['ENTREGUE', 'CANCELADO'].includes(o.status)); $('kds').innerHTML = columns.map(([st, title]) => { 
+        const list = active.filter(o => o.status === st); return `<section class="kds-col"><h2>${title}<span>${list.length}</span></h2>${list.length ? list.map(o => `<article class="ticket status-${o.status}"><div class="ticket-head"><strong>#${o.number}</strong><small>${new Date(o.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</small></div><div class="ticket-client">${esc(o.customer)}</div><ul>${o.items.map(i => `<li><b>${i.qty}×</b> ${esc(i.name)}</li>`).join('')}</ul>${o.note ? `<div class="note">📝 ${esc(o.note)}</div>` : ''}<div class="ticket-foot"><strong>${money(o.total)}</strong><button class="btn ${st === 'EM_PREPARO' ? 'warning' : 'primary'}" data-id="${o.id}">${next(st) === 'EM_PREPARO' ? 'Iniciar preparo' : next(st) === 'PRONTO' ? 'Marcar pronto' : 'Entregar'}</button></div></article>`).join('') : '<div class="empty">Nenhum pedido.</div>'}</section>` }).join(''); document.querySelectorAll('.ticket button').forEach(b => b.onclick = () => advance(b.dataset.id)) }
+function advance(id) { const o = db.orders.find(x => x.id === id); o.status = next(o.status); saveDB(db); toast(`Pedido #${o.number}: ${statusLabel(o.status)}`); render() }
+window.addEventListener('dbchange', render); setInterval(render, 2000); render();

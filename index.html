@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Lanchonete • Caixa</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body data-page="caixa">
+    <header class="topbar">
+        <div><strong>🍔 Lanchonete</strong><span class="muted">Sistema de pedidos</span></div>
+        <nav><a class="active" href="index.html">Caixa</a><a href="cozinha.html">Cozinha</a><a
+                href="cardapio.html">Cardápio</a><a href="pedidos.html">Pedidos</a></nav>
+    </header>
+    <main class="layout">
+        <section class="panel catalog">
+            <div class="section-head">
+                <div>
+                    <h1>Caixa</h1>
+                    <p>Monte o pedido e envie para a cozinha.</p>
+                </div><input id="buscaProduto" class="search" placeholder="Buscar item...">
+            </div>
+            <div id="categorias" class="chips"></div>
+            <div id="produtos" class="product-grid"></div>
+        </section>
+        <aside class="panel order">
+            <div class="section-head">
+                <h2>Pedido atual</h2><button id="limparPedido" class="btn ghost">Limpar</button>
+            </div>
+            <div id="pedidoItens" class="order-items empty">Nenhum item adicionado.</div>
+            <div class="customer"><label>Cliente / mesa (opcional)<input id="cliente"
+                        placeholder="Ex.: João • Mesa 4"></label><label>Observação<input id="observacao"
+                        placeholder="Ex.: sem cebola"></label></div>
+            <div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><button id="enviarPedido"
+                class="btn primary wide" disabled>Enviar pedido para cozinha</button>
+        </aside>
+    </main>
+    <div id="toast" class="toast"></div>
+    <script src="js/app.js"></script>
+    <script src="js/caixa.js"></script>
+</body>
+
+</html>
