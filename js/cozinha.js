@@ -1,4 +1,4 @@
-let db = loadDB(); 
+let db = loadDB();
 const $ = id => document.getElementById(id);
 const columns = [['NOVO', 'Novos'], ['EM_PREPARO', 'Em preparo'], ['PRONTO', 'Prontos']];
 
@@ -11,12 +11,12 @@ function getBtnClass(status) {
     return status === 'NOVO' ? 'bg-blue-600 hover:bg-blue-700 text-white' : status === 'EM_PREPARO' ? 'bg-yellow-600 hover:bg-yellow-700 text-white' : 'bg-green-600 hover:bg-green-700 text-white';
 }
 
-function render() { 
-    db = loadDB(); 
-    const active = db.orders.filter(o => !['ENTREGUE', 'CANCELADO'].includes(o.status)); 
-    
-    $('kds').innerHTML = columns.map(([st, title]) => { 
-        const list = active.filter(o => o.status === st); 
+function render() {
+    db = loadDB();
+    const active = db.orders.filter(o => !['ENTREGUE', 'CANCELADO'].includes(o.status));
+
+    $('kds').innerHTML = columns.map(([st, title]) => {
+        const list = active.filter(o => o.status === st);
         return `
         <section class="flex-1 flex flex-col bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
             <header class="bg-gray-900 px-5 py-3 border-b border-gray-700 flex justify-between items-center">
@@ -53,20 +53,20 @@ function render() {
                 `).join('') : '<div class="h-full flex items-center justify-center text-gray-500 font-medium italic">Nenhum pedido</div>'}
             </div>
         </section>
-        `; 
-    }).join(''); 
-    
+        `;
+    }).join('');
+
     document.querySelectorAll('article button').forEach(b => b.onclick = () => advance(b.dataset.id));
 }
 
-function advance(id) { 
-    const o = db.orders.find(x => x.id === id); 
-    o.status = next(o.status); 
-    saveDB(db); 
-    toast(`Pedido #${o.number}: ${statusLabel(o.status)}`); 
-    render(); 
+function advance(id) {
+    const o = db.orders.find(x => x.id === id);
+    o.status = next(o.status);
+    saveDB(db);
+    toast(`Pedido #${o.number}: ${statusLabel(o.status)}`);
+    render();
 }
 
-window.addEventListener('dbchange', render); 
-setInterval(render, 5000); 
+window.addEventListener('dbchange', render);
+setInterval(render, 5000);
 render();

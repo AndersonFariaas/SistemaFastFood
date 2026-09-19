@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
+
 <body class="bg-gray-50 min-h-screen flex flex-col font-sans text-gray-800" data-page="pedidos">
-    
+
     <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center z-10 border-b border-gray-200">
         <div class="flex items-center gap-3">
             <i class="ph-fill ph-receipt text-3xl text-orange-500"></i>
-            <h1 class="text-xl font-bold">Lanchonete <span class="text-sm font-normal text-gray-500 ml-2">Histórico</span></h1>
+            <h1 class="text-xl font-bold">Lanchonete <span
+                    class="text-sm font-normal text-gray-500 ml-2">Histórico</span></h1>
         </div>
         <nav class="flex gap-1 bg-gray-100 p-1 rounded-lg">
             <a href="index.html" class="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium text-sm">Caixa</a>
-            <a href="cozinha.html" class="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium text-sm">Cozinha</a>
             <a href="cardapio.html" class="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium text-sm">Cardápio</a>
-            <a href="pedidos.html" class="px-4 py-2 bg-white text-orange-600 shadow-sm rounded-md font-semibold text-sm">Pedidos</a>
+            <a href="pedidos.html"
+                class="px-4 py-2 bg-white text-orange-600 shadow-sm rounded-md font-semibold text-sm">Pedidos</a>
         </nav>
     </header>
 
@@ -28,7 +31,8 @@
                 <h1 class="text-3xl font-bold text-gray-900 mb-1">Pedidos Realizados</h1>
                 <p class="text-gray-500">Acompanhe as vendas e o histórico do dia.</p>
             </div>
-            <button id="limparHistorico" class="text-red-500 hover:bg-red-50 border border-red-200 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+            <button id="limparHistorico"
+                class="text-red-500 hover:bg-red-50 border border-red-200 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
                 <i class="ph ph-trash"></i> Limpar Histórico
             </button>
         </div>
@@ -37,9 +41,12 @@
         <div id="historico" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"></div>
     </main>
 
-    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl font-medium flex items-center gap-2 z-50"></div>
+    <div id="toast"
+        class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl font-medium flex items-center gap-2 z-50">
+    </div>
 
     <script src="js/app.js"></script>
     <script src="js/pedidos.js"></script>
 </body>
+
 </html>

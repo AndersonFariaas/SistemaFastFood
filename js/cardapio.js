@@ -4,12 +4,12 @@ const modal = $('modal');
 
 function render() {
     db = loadDB();
-    const cats = [...new Set(db.products.map(p => p.category))].sort(); 
+    const cats = [...new Set(db.products.map(p => p.category))].sort();
     $('filtroCategoria').innerHTML = '<option value="">Todas as categorias</option>' + cats.map(c => `<option>${esc(c)}</option>`).join('');
-    
-    const q = $('filtroCardapio').value.toLowerCase(), cat =$('filtroCategoria').value;
-    const ps = db.products.filter(p => (!q || p.name.toLowerCase().includes(q)) && (!cat || p.category === cat)); 
-    
+
+    const q = $('filtroCardapio').value.toLowerCase(), cat = $('filtroCategoria').value;
+    const ps = db.products.filter(p => (!q || p.name.toLowerCase().includes(q)) && (!cat || p.category === cat));
+
     $('tabelaProdutos').innerHTML = `
         <table class="w-full text-left border-collapse">
             <thead>
@@ -44,61 +44,61 @@ function render() {
             </tbody>
         </table>
         ${ps.length === 0 ? '<div class="p-8 text-center text-gray-500">Nenhum produto encontrado.</div>' : ''}
-    `; 
-    
-    document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openEdit(b.dataset.edit)); 
+    `;
+
+    document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openEdit(b.dataset.edit));
     document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => del(b.dataset.del));
 }
 
 function openEdit(id) {
     const p = id ? db.products.find(x => x.id === id) : null;
-    $('modalTitulo').textContent = p ? 'Editar item' : 'Novo item'; 
-    $('produtoId').value = p?.id || ''; 
-    $('produtoNome').value = p?.name || '';$('produtoPreco').value = p?.price ?? '';
-    $('produtoCategoria').value = p?.category || ''; 
-    $('produtoDescricao').value = p?.description || '';$('produtoAtivo').checked = p?.active ?? true;
-    
+    $('modalTitulo').textContent = p ? 'Editar item' : 'Novo item';
+    $('produtoId').value = p?.id || '';
+    $('produtoNome').value = p?.name || ''; $('produtoPreco').value = p?.price ?? '';
+    $('produtoCategoria').value = p?.category || '';
+    $('produtoDescricao').value = p?.description || ''; $('produtoAtivo').checked = p?.active ?? true;
+
     modal.classList.remove('hidden');
     $('produtoNome').focus();
 }
 
 function close() { modal.classList.add('hidden') }
 
-$('novoProduto').onclick = () => openEdit();$('fecharModal').onclick = close; 
-$('cancelar').onclick = close; 
-modal.onclick = e => { if (e.target === modal) close() }; 
-$('filtroCardapio').oninput = render; 
+$('novoProduto').onclick = () => openEdit(); $('fecharModal').onclick = close;
+$('cancelar').onclick = close;
+modal.onclick = e => { if (e.target === modal) close() };
+$('filtroCardapio').oninput = render;
 $('filtroCategoria').onchange = render;
 
 $('produtoForm').onsubmit = e => {
     e.preventDefault();
     const id = $('produtoId').value;
-    const data = { 
-        name: $('produtoNome').value.trim(), 
-        price: Number($('produtoPreco').value), 
-        category: $('produtoCategoria').value.trim(), 
-        description: $('produtoDescricao').value.trim(), 
-        active: $('produtoAtivo').checked 
+    const data = {
+        name: $('produtoNome').value.trim(),
+        price: Number($('produtoPreco').value),
+        category: $('produtoCategoria').value.trim(),
+        description: $('produtoDescricao').value.trim(),
+        active: $('produtoAtivo').checked
     };
-    
-    if (!data.name || !data.category || data.price < 0) return; 
-    
-    if (id) Object.assign(db.products.find(p => p.id === id), data); 
+
+    if (!data.name || !data.category || data.price < 0) return;
+
+    if (id) Object.assign(db.products.find(p => p.id === id), data);
     else db.products.push({ id: uid('prod'), ...data });
-    
-    saveDB(db); 
-    close(); 
-    render(); 
+
+    saveDB(db);
+    close();
+    render();
     toast('Item salvo com sucesso!');
 };
 
 function del(id) {
     const p = db.products.find(x => x.id === id);
-    if (!p) return; 
-    if (confirm(`Tem certeza que deseja excluir "${p.name}"?`)) { 
-        db.products = db.products.filter(x => x.id !== id); 
-        saveDB(db); 
-        render(); 
+    if (!p) return;
+    if (confirm(`Tem certeza que deseja excluir "${p.name}"?`)) {
+        db.products = db.products.filter(x => x.id !== id);
+        saveDB(db);
+        render();
         toast('Item excluído com sucesso.');
     }
 }
